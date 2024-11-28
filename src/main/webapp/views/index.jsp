@@ -6,8 +6,8 @@
     <title>The Pool</title>
 </head>
 <body>
-<jsp:include page="/header.jsp"/>
-<jsp:include page="/list.jsp"/>
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/views/header.jsper.jsp"/>
+<jsp:include page="/views/list.jspst.jsp"/>
+<jsp:include page="/views/footer.jsper.jsp"/>
 </body>
 </html>

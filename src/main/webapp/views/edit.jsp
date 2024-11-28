@@ -88,7 +88,7 @@
 <%
     int memberID = Integer.parseInt(request.getParameter("id"));
 %>
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/views/header.jsper.jsp"/>
 <% PoolDAO poolDAO = new PoolDAO();
     PoolVO vo = null;
     try {
@@ -158,6 +158,6 @@
         }
     %>
 
-    <jsp:include page="/footer.jsp"/>
+    <jsp:include page="/views/footer.jsper.jsp"/>
 </body>
 </html>
