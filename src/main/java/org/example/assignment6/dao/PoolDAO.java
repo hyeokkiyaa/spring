@@ -48,11 +48,13 @@ public class PoolDAO {
 
     public int totalNum() {
         try {
-            return jdbcTemplate.queryForObject(COUNT_QUERY, Integer.class);
+            Integer result = jdbcTemplate.queryForObject(COUNT_QUERY, Integer.class);
+            return result != null ? result : 0;
         } catch (EmptyResultDataAccessException e) {
             return 0;
         }
     }
+
 
     public ArrayList<PoolVO> selectPoolMemberByName(String name) {
         String searchName = "%" + name + "%";
@@ -102,5 +104,9 @@ public class PoolDAO {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public int updatePool(PoolVO vo) {
+        return jdbcTemplate.update(POOL_UPDATE, vo.getName(), vo.getAge(), vo.getPhonenum(), vo.getEmail(), vo.getGender(), vo.getType(), vo.getFilename(), vo.getId());
     }
 }

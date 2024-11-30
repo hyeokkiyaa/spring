@@ -15,6 +15,6 @@
     22100061 권혁민
 </h1>
  <p>The time on ther server is ${serverTime}.</p>
-<p> <a href="pool/list"> Go to list </a> </p>
+<p> <a href="list"> Go to list </a> </p>
 </body>
 </html>

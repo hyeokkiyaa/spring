@@ -6,7 +6,9 @@
   Time: 오후 8:01
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!--jstl setting-->
 <html>
 <head>
     <title>Edit Member</title>
@@ -41,6 +43,20 @@
         }
     </style>
     <script>
+        window.onload = function () {
+            let valG = '${poolVO.gender}';
+            let valT = '${poolVO.type}';
+            let selT = document.querySelector("select[name=type]").options;
+            let selG = document.querySelector("select[name=gender]").options;
+            for (let i = 0; i < selG.length; i++) {
+                if (selG[i].value === valG) selG[i].selected = true;
+            }
+            for (let i = 0; i < selT.length; i++) {
+                if (selT[i].value === valT) selT[i].selected = true;
+            }
+        };
+
+
         function validateForm() {
             var name = document.getElementById("name").value.trim();
             var age = parseInt(document.getElementById("age").value.trim());
@@ -85,79 +101,52 @@
     </script>
 </head>
 <body>
-<%
-    int memberID = Integer.parseInt(request.getParameter("id"));
-%>
-<jsp:include page="/views/header.jsper.jsp"/>
-<% PoolDAO poolDAO = new PoolDAO();
-    PoolVO vo = null;
-    try {
-        vo = poolDAO.selectPoolMemberById(memberID);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    if (vo != null) {
-%>
 
-<form action="edit_ok.jsp" method="POST" onsubmit="return validateForm()" class="input-box" enctype="multipart/form-data">
+<jsp:include page="/WEB-INF/views/header.jsp"/>
+
+<%--@elvariable id="poolVO" type="org.example.assignment6.bean.PoolVO"--%>
+<form:form action="../editok" method="POST" onsubmit="return validateForm()" class="input-box" modelAttribute="poolVO">
     <h3>Edit Member</h3>
-
-    <input type="hidden" name="id" id="id" value="<%= vo.getId()%>">
+    <form:hidden path="id"/>
 
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" class="custom-input" placeholder="Enter name" value="<%= vo.getName()%>">
+    <form:input path="name" id="name" class="custom-input" placeholder="Enter name"/>
 
     <label for="age">Age</label>
-    <input type="number" name="age" id="age" class="custom-input" placeholder="Enter age" value="<%= vo.getAge()%>">
+    <form:input path="age" id="age" class="custom-input" placeholder="Enter age"/>
 
     <label for="phonenum">Phone Number</label>
-    <input type="text" name="phonenum" id="phonenum" class="custom-input" placeholder="Enter phone number"
-           value="<%= vo.getPhonenum()%>">
+    <form:input path="phonenum" id="phonenum" class="custom-input" placeholder="Enter phone number"/>
 
     <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" class="custom-input" placeholder="Enter email"
-           value="<%= vo.getEmail()%>">
+    <form:input path="email" id="email" class="custom-input" placeholder="Enter email"/>
 
     <label for="gender">Gender</label>
-    <select name="gender" id="gender" class="custom-input">
-        <option value="">Select Gender</option>
-        <option value="m" <%= vo.getGender().equals("m") ? "selected" : "" %>>Male</option>
-        <option value="f" <%= vo.getGender().equals("f") ? "selected" : "" %>>Female</option>
-    </select>
+    <form:select path="gender" id="gender" class="custom-input" name="gender">
+        <option value="m">Male</option>
+        <option value="f">Female</option>
+    </form:select>
 
 
     <label for="type">Type</label>
-    <select name="type" id="type" class="custom-input">
-        <option value="">Select Type</option>
-        <option value="child" <%= vo.getType().equals("child") ? "selected" : "" %>>Child</option>
-        <option value="student" <%= vo.getType().equals("student") ? "selected" : "" %>>Student</option>
-        <option value="adult" <%= vo.getType().equals("adult") ? "selected" : "" %>>Adult</option>
-        <option value="senior" <%= vo.getType().equals("senior") ? "selected" : "" %>>Senior</option>
-    </select>
+    <form:select path="type" id="type" class="custom-input" name="type">
+        <option value="child">Child</option>
+        <option value="student">Student</option>
+        <option value="adult">Adult</option>
+        <option value="senior">Senior</option>
+    </form:select>
+
+
     <br><br>
 
-    <input type="hidden" name="oldfilename" id="oldfilename" value="<%= vo.getFilename()%>">
     <label for="scannedID">Scanned ID</label>
     <br>
     <input type="file" name="scannedID" id="scannedID">
-    <br>
-    <div id="currentFile">
-        <% if (vo.getFilename() != null && !vo.getFilename().isEmpty()) { %>
-        Current File: <a href="upload/<%= vo.getFilename() %>" target="_blank"><%= vo.getFilename() %></a>
-        <% } else { %>
-        No file uploaded.
-        <% } %>
-    </div>
     <br/><br/>
-    <button type="submit">Edit</button>
-</form>
-<% } else {
-%>
-<h6> ERROR <h6>
-        <%
-        }
-    %>
 
-    <jsp:include page="/views/footer.jsper.jsp"/>
+    <button type="submit">Save</button>
+</form:form>
+
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

@@ -5,9 +5,11 @@ import org.example.assignment6.dao.PoolDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -24,19 +26,22 @@ public class PoolController {
         return "home";
     }
 
-    @RequestMapping(value="/pool/list", method = RequestMethod.GET)
+    @RequestMapping(value="list", method = RequestMethod.GET)
     public String poollist(Model model) {
+        model.addAttribute("totalMembers", poolDAO.totalNum());
         model.addAttribute("list", poolDAO.selectAllPool());
         return "list";
     }
 
-    @RequestMapping(value = "/pool/add", method = RequestMethod.GET)
+    @RequestMapping(value = "add", method = RequestMethod.GET)
     public String addMember() {
         return "write";
     }
 
-    @RequestMapping(value = "/pool/addok", method = RequestMethod.POST)
-    public String addOk(PoolVO vo) {
+    @RequestMapping(value = "addok", method = RequestMethod.POST)
+    public String addOK(PoolVO vo) {
+        System.out.println("name: " + vo.getName());
+
         int i = poolDAO.insertPool(vo);
         if (i == 0)
             System.out.println("Data addition failed");
@@ -45,8 +50,22 @@ public class PoolController {
         return "redirect:/list";
     }
 
-    /*@RequestMapping(value = "/pool/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
     public String editMember(@PathVariable("id") int id, Model model) throws SQLException {
         PoolVO poolVO = poolDAO.selectPoolMemberByID(id);
-    }*/
+        System.out.println(poolVO.getGender());
+        System.out.println(poolVO.getType());
+        model.addAttribute("poolVO", poolVO);
+        return "edit";
+    }
+
+    @RequestMapping(value = "editok", method = RequestMethod.POST)
+    public String editOK(PoolVO vo) {
+        int i = poolDAO.updatePool(vo);
+        if (i == 0)
+            System.out.println("Data update failed");
+        else
+            System.out.println("Data update successful");
+        return "redirect:/list";
+    }
 }

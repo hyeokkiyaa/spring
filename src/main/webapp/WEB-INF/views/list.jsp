@@ -36,7 +36,7 @@
     }
     function update_item(id) {
       if (confirm("Do you want to update the member?")) {
-        location.href = 'edit.jsp?id=' + id;
+        location.href = 'edit/' + id;
       } else {
         alert("cancel editing");
       }
@@ -71,7 +71,7 @@
     </form>
 
     <form class="d-flex" action="index.jsp" method="GET" role="search">
-      <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/pool/add">
+      <a class="btn btn-outline-success" href="add">
         <img src="<%= request.getContextPath() %>/img/plus-lg.svg" alt="plus sign" />
       </a>
       <input class="form-control me-2 ms-2" type="search" placeholder="Search" name="name" value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">

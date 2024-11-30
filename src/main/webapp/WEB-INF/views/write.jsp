@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  isELIgnored="false" %>
 <html>
 <head>
   <title>Add Member</title>
@@ -79,7 +79,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 
-<form action="write_ok.jsp" method="POST" onsubmit="return validateForm()" class="input-box" enctype="multipart/form-data">
+<form action="addok" method="POST" onsubmit="return validateForm()" class="input-box">
   <h3>Add New Member</h3>
 
   <label for="name">Name</label>

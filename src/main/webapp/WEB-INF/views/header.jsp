@@ -18,7 +18,7 @@
 <div class="container">
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <div class="col-md-3 mb-2 mb-md-0 d-flex align-items-center">
-      <a href="${pageContext.request.contextPath}/pool/list" class="d-flex align-items-center link-body-emphasis text-decoration-none">
+      <a href="list" class="d-flex align-items-center link-body-emphasis text-decoration-none">
         <img src="<%= request.getContextPath() %>/img/droplet-half.svg" width="40" height="32" alt="Water logo" />
         <h1 class="ms-2 mb-0">The Pool</h1>
       </a>
