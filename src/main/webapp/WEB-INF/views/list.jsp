@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.example.assignment5.dao.PoolDAO" %>
-<%@ page import="org.example.assignment5.bean.PoolVO" %>
+<%@ page import="org.example.assignment6.dao.PoolDAO" %>
+<%@ page import="org.example.assignment6.bean.PoolVO" %>
 <%@ page import="java.util.ArrayList" %>
 <html>
 <head>
@@ -44,11 +44,8 @@
   </script>
 </head>
 <body>
-<%
-  PoolDAO dao = new PoolDAO();
-  int size = dao.totalNum();
-%>
-<h6 class="custom-table">Total number of members: <%= size %></h6>
+
+<h6 class="custom-table">Total number of members: ${totalMembers}</h6>
 <br>
 <nav class="navbar navbar-expand-lg custom-table">
   <div class="container-fluid">
