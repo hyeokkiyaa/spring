@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="org.example.assignment6.dao.PoolDAO" %>
 <%@ page import="org.example.assignment6.bean.PoolVO" %>
@@ -15,11 +16,20 @@
       width: 80%;
       margin: auto;
     }
+
+    @media (max-width: 768px) {
+      .custom-table {
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+      }
+
+    }
   </style>
   <script>
     function delete_item(id) {
       if (confirm("Do you want to delete the member?")) {
-        location.href = 'delete_ok.jsp?id=' + id;
+        location.href = 'deleteok/'+id;
       } else {
         alert("cancel deleting");
       }
@@ -46,6 +56,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
+<div class="custom-table">
 <h6 class="custom-table">Total number of members: ${totalMembers}</h6>
 <br>
 <nav class="navbar navbar-expand-lg custom-table">
@@ -83,53 +94,34 @@
   </tr>
   </thead>
   <tbody>
-  <%
-    PoolDAO poolDAO = new PoolDAO();
-    ArrayList<PoolVO> lists = null;
-    String name = request.getParameter("name");
-    String sort = request.getParameter("sort");
+  <c:if test="${not empty list}">
+    <c:forEach items="${list}" var="u">
+    <tr>
+      <th scope="row">${u.id} </th>
+      <td>${u.name}</td>
+      <td>${u.age}</td>
+      <td>${u.phonenum}</td>
+      <td>${u.email}</td>
+      <td>${u.gender}</td>
+      <td>${u.type}</td>
+      <td><a onclick="download_file(${u.id} )"><img src="<%= request.getContextPath() %>/img/paperclip.svg" alt="attachment.svg"></a></td>
+      <td class="d-flex mt-1">
+        <a onclick="update_item(${u.id} )"> <img src="<%= request.getContextPath() %>/img/pencil.svg" alt="edit image"></a>
+        <a onclick="delete_item(${u.id} )"> <img src="<%= request.getContextPath() %>/img/trash3.svg" alt="delete" class="ms-2"></a>
+      </td>
+    </tr>
+    </c:forEach>
+  </c:if>
 
-    try {
-      if (name != null && !name.isEmpty()){
-        lists = poolDAO.selectPoolMemberByName(name);
-      } else if ("name".equals(sort)) {
-        lists = poolDAO.selectAllPoolSortedByName();
-      } else {
-        lists = poolDAO.selectAllPool();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
 
-    if (lists != null && !lists.isEmpty()) {
-      for (PoolVO vo : lists) {
-  %>
-  <tr>
-    <th scope="row"><%= vo.getId() %></th>
-    <td><a href="view.jsp?id=<%= vo.getId() %>"><%= vo.getName() %></a></td>
-    <td><%= vo.getAge() %></td>
-    <td><%= vo.getPhonenum() %></td>
-    <td><%= vo.getEmail() %></td>
-    <td><%= vo.getGender() %></td>
-    <td><%= vo.getType() %></td>
-    <td><a onclick="download_file(<%= vo.getId() %>)"><img src="img/paperclip.svg" alt="attachment.svg"></a></td>
-    <td class="d-flex mt-1">
-      <a onclick="update_item(<%= vo.getId() %>)"> <img src="img/pencil.svg" alt="edit image"></a>
-      <a onclick="delete_item(<%= vo.getId() %>)"> <img src="img/trash3.svg" alt="delete" class="ms-2"></a>
-    </td>
-  </tr>
-  <%
-    }
-  } else {
-  %>
-  <tr>
-    <td colspan="8">No data found.</td>
-  </tr>
-  <%
-    }
-  %>
+  <c:if test="${empty list}">
+    <tr>
+      <td colspan="8">No data found.</td>
+    </tr>
+  </c:if>
   </tbody>
 </table>
+</div>
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>
