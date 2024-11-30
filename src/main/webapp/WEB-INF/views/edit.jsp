@@ -1,5 +1,5 @@
-<%@ page import="org.example.assignment5.bean.PoolVO" %>
-<%@ page import="org.example.assignment5.dao.PoolDAO" %><%--
+<%@ page import="org.example.assignment6.bean.PoolVO" %>
+<%@ page import="org.example.assignment6.dao.PoolDAO" %><%--
   Created by IntelliJ IDEA.
   User: khm38
   Date: 2024-11-16

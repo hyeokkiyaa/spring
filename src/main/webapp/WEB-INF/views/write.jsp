@@ -77,7 +77,7 @@
   </script>
 </head>
 <body>
-<jsp:include page="/views/header.jsper.jsp" />
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 
 <form action="write_ok.jsp" method="POST" onsubmit="return validateForm()" class="input-box" enctype="multipart/form-data">
   <h3>Add New Member</h3>
@@ -119,6 +119,6 @@
   <button type="submit">Add</button>
 </form>
 
-<jsp:include page="/views/footer.jsper.jsp" />
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

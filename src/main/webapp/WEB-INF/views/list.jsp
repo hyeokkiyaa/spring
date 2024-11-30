@@ -2,6 +2,7 @@
 <%@ page import="org.example.assignment6.dao.PoolDAO" %>
 <%@ page import="org.example.assignment6.bean.PoolVO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
   <meta charset="utf-8">
@@ -44,7 +45,7 @@
   </script>
 </head>
 <body>
-
+<jsp:include page="/WEB-INF/views/header.jsp"/>
 <h6 class="custom-table">Total number of members: ${totalMembers}</h6>
 <br>
 <nav class="navbar navbar-expand-lg custom-table">
@@ -54,13 +55,13 @@
     <form id="sortForm" class="d-flex" action="index.jsp" method="GET">
       <input type="hidden" name="sort" value="">
       <button class="btn btn-outline-success" type="button" onclick="sortByName()">
-        <img src="img/sort-alpha-down.svg" />
+        <img src="<%= request.getContextPath() %>/img/sort-alpha-down.svg" />
       </button>
     </form>
 
     <form class="d-flex" action="index.jsp" method="GET" role="search">
-      <a class="btn btn-outline-success" href="write.jsp">
-        <img src="img/plus-lg.svg" alt="plus sign" />
+      <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/pool/add">
+        <img src="<%= request.getContextPath() %>/img/plus-lg.svg" alt="plus sign" />
       </a>
       <input class="form-control me-2 ms-2" type="search" placeholder="Search" name="name" value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">
       <button class="btn btn-outline-success" type="submit">Search</button>
@@ -129,5 +130,6 @@
   %>
   </tbody>
 </table>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>
