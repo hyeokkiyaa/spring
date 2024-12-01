@@ -50,9 +50,6 @@ public class PoolController {
         return "list";
     }
 
-
-
-
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String addMember() {
         return "write";
