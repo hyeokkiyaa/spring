@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Controller
 public class PoolController {
@@ -33,6 +35,24 @@ public class PoolController {
         return "list";
     }
 
+    @RequestMapping(value="sort", method = RequestMethod.GET)
+    public String poolsort(Model model) {
+        model.addAttribute("totalMembers", poolDAO.totalNum());
+        model.addAttribute("list", poolDAO.selectAllPoolSortedByName());
+        return "list";
+    }
+
+    @RequestMapping(value="poolsearch", method = RequestMethod.GET)
+    public String poolsearch(@RequestParam("name") String name, Model model) throws SQLException {
+        model.addAttribute("totalMembers", poolDAO.totalNum());
+        ArrayList<PoolVO> list = poolDAO.selectPoolMemberByName(name);
+        model.addAttribute("list", list);
+        return "list";
+    }
+
+
+
+
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String addMember() {
         return "write";
@@ -40,7 +60,6 @@ public class PoolController {
 
     @RequestMapping(value = "addok", method = RequestMethod.POST)
     public String addOK(PoolVO vo) {
-        System.out.println("name: " + vo.getName());
 
         int i = poolDAO.insertPool(vo);
         if (i == 0)
@@ -73,5 +92,15 @@ public class PoolController {
         System.out.println("poolVO: " + poolVO.getId());
         model.addAttribute("poolVO", poolVO);
         return "view";
+    }
+
+    @RequestMapping(value = "deleteok/{id}", method = RequestMethod.GET)
+    public String deleteOK(@PathVariable("id") int id) throws SQLException {
+        int i = poolDAO.deletePool(id);
+        if (i == 0)
+            System.out.println("Data delete failed");
+        else
+            System.out.println("Data delete successful");
+        return "redirect:/list";
     }
 }

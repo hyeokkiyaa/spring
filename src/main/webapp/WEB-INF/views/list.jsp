@@ -1,8 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.example.assignment6.dao.PoolDAO" %>
-<%@ page import="org.example.assignment6.bean.PoolVO" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  isELIgnored="false" %>
+
 <%@ page isELIgnored="false" %>
 <html>
 <head>
@@ -27,6 +25,15 @@
         }
     </style>
     <script>
+        function searchByName() {
+            const name = document.getElementById("namesearch").value.trim();
+            if (name) {
+                location.href = "poolsearch?name=" + encodeURIComponent(name);
+            } else {
+                alert("Please enter a name to search.");
+            }
+        }
+
         function delete_item(id) {
             if (confirm("Do you want to delete the member?")) {
                 location.href = 'deleteok/' + id;
@@ -43,15 +50,9 @@
             }
         }
 
-        function download_file(id) {
-            location.href = 'filedownload.jsp?id=' + id;
-        }
-
         // Function to handle sort button click
         function sortByName() {
-            var form = document.getElementById('sortForm');
-            form.sort.value = 'name';
-            form.submit();
+            location.href = "<%= request.getContextPath() %>/sort";
         }
     </script>
 </head>
@@ -64,21 +65,20 @@
         <div class="container-fluid">
             <h3>List of members</h3>
 
-            <form id="sortForm" class="d-flex" action="index.jsp" method="GET">
+            <form id="sortForm" class="d-flex" method="GET">
                 <input type="hidden" name="sort" value="">
                 <button class="btn btn-outline-success" type="button" onclick="sortByName()">
                     <img src="<%= request.getContextPath() %>/img/sort-alpha-down.svg"/>
                 </button>
             </form>
 
-            <form class="d-flex" action="index.jsp" method="GET" role="search">
+            <div class="d-flex">
                 <a class="btn btn-outline-success" href="add">
                     <img src="<%= request.getContextPath() %>/img/plus-lg.svg" alt="plus sign"/>
                 </a>
-                <input class="form-control me-2 ms-2" type="search" placeholder="Search" name="name"
-                       value="<%= request.getParameter("name") != null ? request.getParameter("name") : "" %>">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+                <input class="form-control me-2 ms-2" type="search" placeholder="Search" name="namesearch" id="namesearch">
+                <button class="btn btn-outline-success" onclick="searchByName()">Search</button>
+            </div>
         </div>
     </nav>
     <table class="table custom-table table-bordered">
