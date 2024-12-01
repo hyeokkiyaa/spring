@@ -1,12 +1,5 @@
-<%@ page import="org.example.assignment5.dao.PoolDAO" %>
-<%@ page import="org.example.assignment5.bean.PoolVO" %><%--
-  Created by IntelliJ IDEA.
-  User: khm38
-  Date: 2024-11-16
-  Time: 오후 8:03
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html>
 <head>
     <title>View</title>
@@ -34,83 +27,62 @@
     </style>
     <script>
         function goback() {
-            location.href = "index.jsp";
+            location.href = "<%= request.getContextPath() %>/list";
         }
     </script>
 </head>
 <body>
-<%
-    int memberID = Integer.parseInt(request.getParameter("id"));
-%>
-<jsp:include page="header.jsp"/>
-<% PoolDAO poolDAO = new PoolDAO();
-    PoolVO vo = null;
-    try {
-        vo = poolDAO.selectPoolMemberById(memberID);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    if (vo != null) {
-%>
+
+<jsp:include page="/WEB-INF/views/header.jsp"/>
+
 <div class="big-box">
     <h3>Member Information</h3>
-
+    <c:if test="${poolVO != null}">
+    <c:set var="u" value="${poolVO}"/>
     <h4>Name</h4>
     <br/>
-    <div class="custom-table info-box"><%= vo.getName()%>
+    <div class="custom-table info-box">${u.id}
     </div>
     <br/><br/>
 
     <h4>Age</h4>
     <br/>
-    <div class="custom-table info-box"><%= vo.getAge()%>
+    <div class="custom-table info-box">${u.age}
     </div>
     <br/><br/>
 
     <h4>Phone number</h4>
     <br/>
-    <div class="custom-table info-box"><%= vo.getPhonenum()%>
+    <div class="custom-table info-box">${u.phonenum}
     </div>
     <br/><br/>
 
     <h4>E-mail</h4>
     <br/>
-    <div class="custom-table info-box"><%= vo.getEmail()%>
+    <div class="custom-table info-box">${u.email}
     </div>
     <br><br/>
 
     <h4>Gender</h4>
     <br/>
-    <div class="custom-table info-box"><%= vo.getGender()%>
+    <div class="custom-table info-box">${u.gender}
     </div>
     <br><br/>
 
     <h4>Type</h4>
     <br/>
-    <div class="custom-table info-box"><%=vo.getType()%>
+    <div class="custom-table info-box">${u.type}
     </div>
     <br><br/>
-    <div id="currentFile">
-        <% if (vo.getFilename() != null && !vo.getFilename().isEmpty()) { %>
-        <h4>Scanned ID</h4>
-        <div class="custom-table info-box"><a href="upload/<%= vo.getFilename() %>"
-                                              target="_blank"><%= vo.getFilename() %>
-        </a>
-        </div>
-        <% } else { %>
-        No file uploaded.
-        <% } %>
-    </div>
-    <br/><br/>
+
     <button type="button" class="btn btn-primary for-button" onclick="goback()"> Go back to List</button>
 </div>
-<% } else {
-%>
-<h6> ERROR <h6>
-        <%
-        }
-    %>
 
-    <jsp:include page="footer.jsp"/>
+</c:if>
+
+<c:if test="${poolVO == null}">
+    <p>NO DATA FOUND</p>
+</c:if>
+<jsp:include page="/WEB-INF/views/footer.jsp"/>
 </body>
 </html>

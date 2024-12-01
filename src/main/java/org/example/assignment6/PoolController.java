@@ -53,8 +53,6 @@ public class PoolController {
     @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
     public String editMember(@PathVariable("id") int id, Model model) throws SQLException {
         PoolVO poolVO = poolDAO.selectPoolMemberByID(id);
-        System.out.println(poolVO.getGender());
-        System.out.println(poolVO.getType());
         model.addAttribute("poolVO", poolVO);
         return "edit";
     }
@@ -67,5 +65,13 @@ public class PoolController {
         else
             System.out.println("Data update successful");
         return "redirect:/list";
+    }
+
+    @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+    public String viewMember(@PathVariable("id") int id, Model model) throws SQLException {
+        PoolVO poolVO = poolDAO.selectPoolMemberByID(id);
+        System.out.println("poolVO: " + poolVO.getId());
+        model.addAttribute("poolVO", poolVO);
+        return "view";
     }
 }

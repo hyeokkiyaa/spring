@@ -109,4 +109,8 @@ public class PoolDAO {
     public int updatePool(PoolVO vo) {
         return jdbcTemplate.update(POOL_UPDATE, vo.getName(), vo.getAge(), vo.getPhonenum(), vo.getEmail(), vo.getGender(), vo.getType(), vo.getFilename(), vo.getId());
     }
+
+    public int deletePool(int id) {
+        return jdbcTemplate.update(POOL_DELETE, new Object[]{id});
+    }
 }
