@@ -41,7 +41,7 @@
     <c:set var="u" value="${poolVO}"/>
     <h4>Name</h4>
     <br/>
-    <div class="custom-table info-box">${u.id}
+    <div class="custom-table info-box">${u.name}
     </div>
     <br/><br/>
 
